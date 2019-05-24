@@ -36,8 +36,8 @@ P.S. За незакрытый файловый дескриптор - кара�
 import pprint
 from collections import defaultdict, Counter
 
-# Функция перевода ДНК в РНК(тРНК)
 def translate_from_dna_to_rna(dna):
+    """ Переводит цепочку ДНК в РНК """
     # Иначально переводил в иРНК, пока не прочитал сообщение в телеграме
     dna_to_rna = {
         "G": "C",
@@ -56,27 +56,35 @@ def translate_from_dna_to_rna(dna):
                 # out_file.write("".join(out_line))
                 # out_file.write('\n')
 
-# Функция получения статистики о нуклеотидах ДНК
-# counter - считает количество символов в каждой строке, обновляя результат
-# В словаре сохраняется полное описание гена с именем и общим количеством
-# нуклеотидов. statistics содержит описание всех генов
+
+def count_symbols(s: str) -> dict:
+    """ Подсчитывает количество вхождений каждого символа в строке """
+    counter = {}
+    for i in s:
+        if i in counter:
+            counter[i] += 1
+        else:
+            counter[i] = 1
+    return counter
+
+
 def count_nucleotides(dna):
+    """ Функция получения статистики о нуклеотидах ДНК """
     statistics = []
-    description = defaultdict(str)
-    counter = Counter()
+    description = {}
     for line in dna:
         line = line.rstrip('\n')
         if line.startswith(">"):
-            if counter:  # Счётчик символов не пустой
-                description.update(counter)
+            if description:
                 statistics.append(description.copy())
                 description.clear()
-                counter.clear()
             description["name"] = line[1:]
-            continue
-        counter.update(Counter(line))
-    # На выходе из цикла нужно записать последние данные
-    description.update(counter)
+        else:
+            for i in line:
+                if i in description:
+                    description[i] += 1
+                else:
+                    description[i] = 1
     statistics.append(description.copy())
     pprint.pprint(statistics)
 
@@ -84,7 +92,7 @@ def count_nucleotides(dna):
     with open("nucleotides_stat.txt", "w") as out_file:
         for stat in statistics:
             for key, value in stat.items():
-                out_file.write(key + "    " + str(value) + "\n")
+                out_file.write(f"{key}    {value}\n")
             out_file.write("----------------------------------\n")
 
 # Словарь соотвествий кодонов и аминокислот
@@ -98,8 +106,8 @@ def get_dict_rna_to_codon(dictionary, file_path):
             )
     pprint.pprint(dictionary)
 
-# Перевод последовательности РНК в протеин
 def translate_rna_to_protein(rna):
+    """ Переводит последовательность РНК в протеин """
     # Создаём словарь для хранения таблицы кодонов
     rna_to_protein_dict = {}
     get_dict_rna_to_codon(rna_to_protein_dict, r"files\rna_codon_table.txt")
