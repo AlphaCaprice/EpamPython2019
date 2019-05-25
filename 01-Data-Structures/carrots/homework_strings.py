@@ -34,7 +34,7 @@ P.S. За незакрытый файловый дескриптор - кара�
 """
 
 import pprint
-from collections import defaultdict, Counter
+
 
 def translate_from_dna_to_rna(dna):
     """ Переводит цепочку ДНК в РНК """
@@ -95,6 +95,7 @@ def count_nucleotides(dna):
                 out_file.write(f"{key}    {value}\n")
             out_file.write("----------------------------------\n")
 
+
 # Словарь соотвествий кодонов и аминокислот
 def get_dict_rna_to_codon(dictionary, file_path):
     with open(file_path) as f:
@@ -105,6 +106,7 @@ def get_dict_rna_to_codon(dictionary, file_path):
                     for item in line if item}
             )
     pprint.pprint(dictionary)
+
 
 def translate_rna_to_protein(rna):
     """ Переводит последовательность РНК в протеин """
@@ -128,12 +130,10 @@ def translate_rna_to_protein(rna):
                     codon_file.write('\n')
 
 
-
-
-
 # read the file dna.fasta
 with open("files/dna.fasta", "r") as dna_file:
     count_nucleotides(dna_file)
+
 
 # Второй раз потому что мы прошлись уже по файлу,
 # вызвав предыдущую функцию
