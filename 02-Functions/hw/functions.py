@@ -1,4 +1,8 @@
 def letters_range(*args, **kwargs):
+    """ Возвращает список букв в указанном диапазоне c указанным шагом
+        Например: letters_range('b', 'l', 2) -> ['b', 'd', 'f', 'h', 'j']
+        letters_range('c') -> ['a', 'b'] """
+
     alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m',
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y','z']
     len_args = len(args)
@@ -25,7 +29,7 @@ def letters_range(*args, **kwargs):
               "third - integer")
 
 
-print(letters_range('b', 'w', 2))
+print(letters_range('b', 'l', 2))
 print(letters_range('g'))
 print(letters_range('g', 'p'))
 print(letters_range('g', 'p', **{'l': 7, 'o': 0}))
