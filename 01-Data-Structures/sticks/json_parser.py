@@ -231,7 +231,7 @@ def load_wine_stat_as_json(variety_data, all_stat_data, fp):
         out_f.seek(out_f.tell() - 2)
         out_f.write("}}")
 
-# unicode-escape
+
 def load_wine_stat_as_markdown(variety_data, all_stat_data, fp):
     with open(fp, "w", encoding="utf-8") as out_f:
         for stat, dict_data in variety_data.items():
@@ -291,7 +291,7 @@ def get_stat(wine_data):
     get_final_variety_stat(wine_stat)
     get_final_another_stat(another_stat)
 
-    # load_wine_stat_as_json(wine_stat, another_stat, "stats.json")
+    load_wine_stat_as_json(wine_stat, another_stat, "stats.json")
     load_wine_stat_as_markdown(wine_stat, another_stat, "stats.md")
     pprint.pprint(wine_stat)
     pprint.pprint(another_stat)
@@ -303,7 +303,6 @@ if __name__ == '__main__':
     file_paths = ("winedata_1.json", "winedata_2.json")
     for path in file_paths:
       dump_json_file(path, all_wines)
-    # dump_json_file("winedata_2.json", all_wines)
     all_wines = sorted(all_wines.items(),
                        key=lambda k: (int(k[0][2]), k[0][0]), reverse=True)
     load_json(all_wines, "winedata_full.json")
