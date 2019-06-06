@@ -18,9 +18,6 @@ def dump_json_file(file_path, wines):
             wine_key = (data['"variety"'], data['"description"'],
                         data['"price"'] if data['"price"'] != 'null' else -1,
                         data['"title"'])
-            if wine_key in wines:
-                if not (wines[wine_key] == data):
-                    print(wines[wine_key], "\n", data, "\n\n")
             wines[wine_key] = data.copy()
 
 
