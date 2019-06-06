@@ -2,7 +2,6 @@ import pprint
 from time import clock
 import json
 
-
 # encoding="unicode-escape"
 def dump_json_file(file_path, wines):
     data = {}
@@ -17,21 +16,25 @@ def dump_json_file(file_path, wines):
                 data[f'"{field[0]}'] = field[1]
 
             wine_key = (data['"variety"'], data['"description"'],
-                        data['"price"'] if data['"price"'] != 'null' else -1)
+                        data['"price"'] if data['"price"'] != 'null' else -1,
+                        data['"title"'])
+            if wine_key in wines:
+                if not (wines[wine_key] == data):
+                    print(wines[wine_key], "\n", data, "\n\n")
             wines[wine_key] = data.copy()
 
 
 def load_json(data, file_path):
     with open(file_path, "w", encoding="utf-8") as out_f:
-        out_f.write("[\n")
+        out_f.write("[")
         for elem in data:
             out_f.write("{")
             for key, value in elem[1].items():
                 out_f.write(f"{key}: {value}, ")
             out_f.seek(out_f.tell() - 2)
-            out_f.write("},\n")
-        out_f.seek(out_f.tell() - 3)
-        out_f.write("]\n")
+            out_f.write("},")
+        out_f.seek(out_f.tell() - 1)
+        out_f.write("]")
 
 
 def update_variety_stat(wine, variety, wine_stat):
@@ -303,6 +306,7 @@ if __name__ == '__main__':
     file_paths = ("winedata_1.json", "winedata_2.json")
     for path in file_paths:
       dump_json_file(path, all_wines)
+    print(len(all_wines))
     all_wines = sorted(all_wines.items(),
                        key=lambda k: (int(k[0][2]), k[0][0]), reverse=True)
     load_json(all_wines, "winedata_full.json")
