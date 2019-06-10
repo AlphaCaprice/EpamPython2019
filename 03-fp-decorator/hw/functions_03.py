@@ -40,27 +40,24 @@ def make_cache(t: int):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             key = (args, tuple(kwargs.items())) if kwargs else args
-            if key in cache:
+            if key in cache and time.time()-cache[key][1] < t:
                 return cache[key][0]
 
             cache[key] = (func(*args, **kwargs), time.time())
-            for key in cache.copy():
-                if time.time()-cache[key][1] >= t:
-                    cache.pop(key)
             print(cache)
             return cache[key]
         return wrapper
     return decorator
 
 
-@make_cache(10)
+@make_cache(3)
 def slow_function_1(k, *args, **kwargs):
     for i in range(100_000_000):
         ...
     return k
 
 
-@make_cache(10)
+@make_cache(3)
 def slow_function_2(k,  *args, **kwargs):
     for i in range(100_000_000):
         ...
