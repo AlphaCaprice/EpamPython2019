@@ -47,19 +47,19 @@ def make_cache(t: int, cache=[]):
 
 @make_cache(5)
 def slow_function():
-    for i in range(100000000):
+    for i in range(100_000_000):
         ...
     return random.randint(1, 1000)
 
 if __name__ == "__main__":
-    # print(sum_square_difference(100))
-    # print(special_pythagorean_triplet(1_000))
-    # print(self_powers(1_000))
-    # print(champernownes_constant(1_000_000))
-    # print(is_armstrong(153))
-    # print(is_armstrong(10))
-    # print(collatz_steps(16) == 4)
-    # print(collatz_steps(12) == 9)
-    # print(collatz_steps(1_000_000) == 152)
+    print(sum_square_difference(100))
+    print(special_pythagorean_triplet(1_000))
+    print(self_powers(1_000))
+    print(champernownes_constant(1_000_000))
+    print(is_armstrong(153))
+    print(is_armstrong(10))
+    print(collatz_steps(16) == 4)
+    print(collatz_steps(12) == 9)
+    print(collatz_steps(1_000_000) == 152)
     for i in range(8):
         print(slow_function())
