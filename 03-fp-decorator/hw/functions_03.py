@@ -32,34 +32,46 @@ def collatz_steps(n: int, counter=0)->int:
         collatz_steps(3*n+1, counter=counter+1) if n != 1 else counter
 
 
-def make_cache(t: int, cache=[]):
+def make_cache(t: int):
+    cache = {}
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            cache.append(func(*args, **kwargs))
-            Timer(t, cache.pop, [0]).start()
+            key = (args, kwargs) if kwargs else args
+            if key in cache:
+                return cache[key]
+            cache[key] = func(*args, **kwargs)
+            Timer(t, cache.pop, [key]).start()
             print(cache)
-            return cache[-1]
+            return cache[key]
         return wrapper
-
     return decorator
 
 
 @make_cache(5)
-def slow_function():
-    for i in range(100_000_000):
-        ...
-    return random.randint(1, 1000)
+def slow_function_1(k):
+    return k
+
+
+@make_cache(5)
+def slow_function_2(k):
+    return k
 
 if __name__ == "__main__":
-    print(sum_square_difference(100))
-    print(special_pythagorean_triplet(1_000))
-    print(self_powers(1_000))
-    print(champernownes_constant(1_000_000))
-    print(is_armstrong(153))
-    print(is_armstrong(10))
-    print(collatz_steps(16) == 4)
-    print(collatz_steps(12) == 9)
-    print(collatz_steps(1_000_000) == 152)
-    for i in range(8):
-        print(slow_function())
+    # print(sum_square_difference(100))
+    # print(special_pythagorean_triplet(1_000))
+    # print(self_powers(1_000))
+    # print(champernownes_constant(1_000_000))
+    # print(is_armstrong(153))
+    # print(is_armstrong(10))
+    # print(collatz_steps(16) == 4)
+    # print(collatz_steps(12) == 9)
+    # print(collatz_steps(1_000_000) == 152)
+    for i in range(5):
+        print(slow_function_1(i*100))
+        print(slow_function_2(i*400))
+
+    for i in range(5, 0, -1):
+        print(slow_function_1(i*100))
+        print(slow_function_2(i*400))
