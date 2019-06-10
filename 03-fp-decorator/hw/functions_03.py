@@ -1,7 +1,8 @@
 import functools
 import random
+import time
 from functools import reduce, update_wrapper
-from threading import Timer
+
 
 
 def sum_square_difference(n: int)->int:
@@ -38,26 +39,29 @@ def make_cache(t: int):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            key = (args, kwargs) if kwargs else args
+            key = (args, tuple(kwargs.items())) if kwargs else args
             if key in cache:
-                return cache[key]
-            cache[key] = func(*args, **kwargs)
-            Timer(t, cache.pop, [key]).start()
+                return cache[key][0]
+
+            cache[key] = (func(*args, **kwargs), time.time())
+            for key in cache.copy():
+                if time.time()-cache[key][1] >= t:
+                    cache.pop(key)
             print(cache)
             return cache[key]
         return wrapper
     return decorator
 
 
-@make_cache(5)
-def slow_function_1(k):
+@make_cache(10)
+def slow_function_1(k, *args, **kwargs):
     for i in range(100_000_000):
         ...
     return k
 
 
-@make_cache(5)
-def slow_function_2(k):
+@make_cache(10)
+def slow_function_2(k,  *args, **kwargs):
     for i in range(100_000_000):
         ...
     return k
@@ -73,9 +77,9 @@ if __name__ == "__main__":
     # print(collatz_steps(12) == 9)
     # print(collatz_steps(1_000_000) == 152)
     for i in range(1, 6):
-        print(slow_function_1(i*100))
-        print(slow_function_2(i*400))
+        print(slow_function_1(i*100, **{str(i): i**2}))
+        # print(slow_function_2(i*400, **{str(i): i**2}))
 
     for i in range(5, 0, -1):
-        print(slow_function_1(i*100))
-        print(slow_function_2(i*400))
+        print(slow_function_1(i*100, **{str(i): i**2}))
+        # print(slow_function_2(i*400, **{str(i): i**2}))
