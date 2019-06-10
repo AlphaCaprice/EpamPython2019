@@ -51,11 +51,15 @@ def make_cache(t: int):
 
 @make_cache(5)
 def slow_function_1(k):
+    for i in range(100_000_000):
+        ...
     return k
 
 
 @make_cache(5)
 def slow_function_2(k):
+    for i in range(100_000_000):
+        ...
     return k
 
 if __name__ == "__main__":
@@ -68,7 +72,7 @@ if __name__ == "__main__":
     # print(collatz_steps(16) == 4)
     # print(collatz_steps(12) == 9)
     # print(collatz_steps(1_000_000) == 152)
-    for i in range(5):
+    for i in range(1, 6):
         print(slow_function_1(i*100))
         print(slow_function_2(i*400))
 
