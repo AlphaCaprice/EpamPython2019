@@ -42,9 +42,7 @@ def make_cache(t: int):
             key = (args, tuple(kwargs.items())) if kwargs else args
             if key in cache and time.time()-cache[key][1] < t:
                 return cache[key][0]
-
             cache[key] = (func(*args, **kwargs), time.time())
-            print(cache)
             return cache[key]
         return wrapper
     return decorator
