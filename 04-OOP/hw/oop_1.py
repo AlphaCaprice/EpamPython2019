@@ -97,8 +97,8 @@ if __name__ == '__main__':
 
     student = Student('Roman', 'Petrov')
     teacher = Teacher('Daniil', 'Shadrin')
-    print(teacher.last_name)  # Shadrin
-    print(student.first_name)  # Roman
+    print(teacher.last_name, teacher.first_name)  # Shadrin
+    print(student.first_name, student.last_name)  # Roman
 
     expired_homework = teacher.create_homework('Learn functions', 0)
     print(expired_homework.created)  # Example: 2019-05-26 16:44:30.688762
