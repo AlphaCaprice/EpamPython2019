@@ -161,9 +161,10 @@ if __name__ == '__main__':
     print(Teacher.homework_done[oop_hw])
     print(Teacher.homework_done)
     Teacher.reset_results()
-
+    print(Teacher.homework_done)
     bad_hw = opp_teacher.create_homework('Do nothing', -1)
     try:
         good_student.do_homework(bad_hw, "Done this")
     except Exception as e:
         print(e)
+
