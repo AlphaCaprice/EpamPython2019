@@ -8,8 +8,6 @@ reset_instances_counter - сбросить счетчик экземпляров
 
 Ниже пример использования
 """
-import functools
-import sys
 
 def instances_counter(cls):
     """Some code"""
@@ -46,6 +44,6 @@ if __name__ == '__main__':
     print(User.get_created_instances())  # 0
     user, user_2, _ = User(), User(), User()
     print(user.get_created_instances())
-    print(user_2.get_created_instances()) # 3
+    print(user_2.get_created_instances())  # 3
     user.reset_instances_counter()  # 3
     print(user.get_created_instances())
