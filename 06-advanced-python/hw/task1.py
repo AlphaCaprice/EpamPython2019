@@ -30,7 +30,7 @@ class PrintableFile:
 class PrintableFolder:
     def __init__(self, name: str, content=None):
         content = content or {}
-        for address, dirs, files in os.walk(work_path):
+        for address, dirs, files in os.walk(name):
             content[os.path.basename(address)] = (dirs, files)
         self.name = os.path.basename(name)
         self.content = content
@@ -59,7 +59,6 @@ class PrintableFolder:
 
 
 if __name__ == "__main__":
-    # path = r"C:\Users\Roman\Documents\Python Projects\EpamPython2019"
     current_path = os.path.abspath(os.curdir)
     work_path = os.path.abspath(r"..\..\06-advanced-python")
 
