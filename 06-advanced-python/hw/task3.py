@@ -35,14 +35,15 @@ class CaesarCipher:
     out_message = ShiftDescriptor(3)
 
 
-a = CaesarCipher()
-a.message = 'abc'
-a.another_message = 'hello'
-a.out_message = "xyz"
+if __name__ == "__main__":
+    a = CaesarCipher()
+    a.message = 'abc'
+    a.another_message = 'hello'
+    a.out_message = "xyz"
 
-assert a.message == 'efg'
-print(a.message)
-assert a.another_message == 'olssv'
-print(a.another_message)
-assert a.out_message == 'abc'
-print(a.out_message)
+    assert a.message == 'efg'
+    print(a.message)
+    assert a.another_message == 'olssv'
+    print(a.another_message)
+    assert a.out_message == 'abc'
+    print(a.out_message)

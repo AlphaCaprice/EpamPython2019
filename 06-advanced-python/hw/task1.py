@@ -53,14 +53,14 @@ class PrintableFolder:
         return "".join(out_str)
 
     def __contains__(self, item: PrintableFile):
-        print(self.content[self.name][1])
+        # print(self.content[self.name][1])
         return item.name in self.content[self.name][1]
 
 
 
 if __name__ == "__main__":
     current_path = os.path.abspath(os.curdir)
-    work_path = os.path.abspath(r"..\..\06-advanced-python")
+    work_path = os.path.abspath(r"..\..\06-advanced-python\hw_test1")
 
     pfile = PrintableFile("file4.txt")
     print(pfile)

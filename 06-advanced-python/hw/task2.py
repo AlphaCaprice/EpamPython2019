@@ -46,11 +46,12 @@ class GraphIterator:
             raise StopIteration()
         return self.g_iterable[self._cursor]
 
+if __name__ == "__main__":
 
-E = {'A': ['B', 'C', 'D'], 'C': ['F'], 'D': ['A'], 'E': ['F'],
-     'F': ['G'], 'G': [], 'B': ['C', 'E']}
-graph = Graph(E)
+    E = {'A': ['B', 'C', 'D'], 'C': ['F'], 'D': ['A'], 'E': ['F'],
+         'F': ['G'], 'G': [], 'B': ['C', 'E']}
+    graph = Graph(E)
 
 
-for vertex in graph:
-    print(vertex)
+    for vertex in graph:
+        print(vertex)
