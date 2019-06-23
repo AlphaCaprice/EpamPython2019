@@ -20,13 +20,6 @@ class MyClient:
         self.client_socket.sendto(self.nickname.encode("utf-8"), self.server)
         self.online = True
 
-
-    def receiving(self, sock):
-        while self.online:
-            data, addr = sock.recvfrom(1024)
-            print(data.decode("utf-8"))
-            time.sleep(0.2)
-
     def send_msg(self, msg):
         try:
             if msg:
