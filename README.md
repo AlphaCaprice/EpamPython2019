@@ -5,3 +5,5 @@ Home tasks:
 * 02 +
 * 03 +
 * 04 +
+* 05 checking
+* 06 checking
