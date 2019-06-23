@@ -56,8 +56,7 @@ class App(QtWidgets.QMainWindow):
             self.ui.textEdit.append(f"You > {msg}")
             self.client.send_msg(msg)
             if msg == r"\exit":
-                self.close()
-                sys.exit(self.exec_())
+                self.exec_()
         self.ui.lineEdit.clear()
 
     def receive_msg(self):
@@ -66,6 +65,9 @@ class App(QtWidgets.QMainWindow):
             self.ui.textEdit.append(data.decode())
             time.sleep(0.2)
 
+    def closeEvent(self, event):
+        self.client.send_msg(r"\exit")
+        self.exec_()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
