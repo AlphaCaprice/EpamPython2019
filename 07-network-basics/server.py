@@ -23,15 +23,15 @@ class Server:
                 data, addr = self.server_socket.recvfrom(1024)
                 data = data.decode()
                 if data == r"\exit":
-                    self.clients.pop(addr)
                     msg_left = f"{self.clients[addr]} left the chat!"
                     self.print_server_msg(msg_left, addr)
                     self.broadcast(msg_left, addr)
+                    self.clients.pop(addr)
                     continue
 
                 if addr not in self.clients:
                     self.clients[addr] = data
-                    msg = f"{self.clients[addr]} is join the chat"
+                    msg = f"{self.clients[addr]} is join to chat"
                     self.print_server_msg(msg, addr)
                     self.broadcast(msg, addr)
                 else:

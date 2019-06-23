@@ -8,7 +8,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit,QAction, QFileDialog, QApplication, QToolBar
 
-class MyClient:
+
+class Client:
     def __init__(self, server: tuple):
         self.server = server
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -26,8 +27,7 @@ class MyClient:
                 self.client_socket.sendto(msg.encode(), self.server)
                 if msg == r"\exit":
                     self.online = False
-            time.sleep(0.2)
-        except:
+        except ConnectionError:
             self.client_socket.sendto(r"\exit".encode("utf-8"), self.server)
             self.online = False
 
@@ -38,7 +38,7 @@ class App(QtWidgets.QMainWindow):
         self.ui = window.Ui_MainWindow()
         self.ui.setupUi(self)
         self.initUI()
-        self.client = MyClient(("192.168.0.103", 4242))
+        self.client = Client(("192.168.0.103", 4242))
 
     def initUI(self):
         self.ui.pushButton.clicked.connect(self.send_msg)
@@ -48,12 +48,16 @@ class App(QtWidgets.QMainWindow):
         if not self.client.online:
             self.client.nickname = msg
             self.client.start()
-            rT = threading.Thread(target=self.receive_msg)
-            rT.start()
+            receive_thread = threading.Thread(target=self.receive_msg)
+            receive_thread.start()
             self.ui.textEdit.append("You are join to chat!")
+
         else:
             self.ui.textEdit.append(f"You > {msg}")
             self.client.send_msg(msg)
+            if msg == r"\exit":
+                self.close()
+                sys.exit(self.exec_())
         self.ui.lineEdit.clear()
 
     def receive_msg(self):
