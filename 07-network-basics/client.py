@@ -38,7 +38,7 @@ class App(QtWidgets.QMainWindow):
         self.ui = window.Ui_MainWindow()
         self.ui.setupUi(self)
         self.initUI()
-        self.client = Client(("192.168.0.103", 4242))
+        self.client = Client(("192.168.0.100", 4242))
 
     def initUI(self):
         self.ui.pushButton.clicked.connect(self.send_msg)
@@ -51,7 +51,6 @@ class App(QtWidgets.QMainWindow):
             receive_thread = threading.Thread(target=self.receive_msg)
             receive_thread.start()
             self.ui.textEdit.append("You are join to chat!")
-
         else:
             self.ui.textEdit.append(f"You > {msg}")
             self.client.send_msg(msg)
