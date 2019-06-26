@@ -9,6 +9,7 @@ class ServerException(Exception):
 class Server:
     def __init__(self):
         self.host = socket.gethostbyname(socket.gethostname())
+        # print(self.host)
         self.port = 4242
         self.clients = {}
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
