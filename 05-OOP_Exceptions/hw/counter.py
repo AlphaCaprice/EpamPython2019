@@ -16,9 +16,9 @@ def instances_counter(cls):
     cls.__counter = 0
     # cls_new = cls.__new__
 
-    def __new(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         cls.__counter += 1
-        return super(cls, cls).__new__(cls, *args, **kwargs)
+        return super(cls, cls).__new__(cls)
         # return cls_new_(cls, *args, **kwargs)
 
     @classmethod
@@ -31,7 +31,7 @@ def instances_counter(cls):
         cls.__counter = 0
         return res
 
-    cls.__new__ = __new
+    cls.__new__ = __new__
     cls.get_created_instances = __get_created_instances
     cls.reset_instances_counter = __reset_instances_counter
     return cls
@@ -43,7 +43,6 @@ class User:
 
 
 if __name__ == '__main__':
-
     print(User.get_created_instances())  # 0
     user, user_2, _ = User(), User(), User()
     print(user.get_created_instances())
