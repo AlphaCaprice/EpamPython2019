@@ -9,26 +9,29 @@ reset_instances_counter - сбросить счетчик экземпляров
 Ниже пример использования
 """
 
+
 def instances_counter(cls):
     """Some code"""
-    counter = 0
-    orig_init = cls.__init__
+    print(cls)
+    cls.__counter = 0
+    # cls_new = cls.__new__
 
-    def __add_count(self, *args, **kwargs):
-        nonlocal counter
-        counter += 1
-        return orig_init(self, *args, **kwargs)
+    def __new(cls, *args, **kwargs):
+        cls.__counter += 1
+        return super(cls, cls).__new__(cls, *args, **kwargs)
+        # return cls_new_(cls, *args, **kwargs)
 
-    def __get_created_instances(self=None):
-        return counter
+    @classmethod
+    def __get_created_instances(cls=cls):
+        return cls.__counter
 
-    def __reset_instances_counter(self=None):
-        nonlocal counter
-        res = counter
-        counter = 0
+    @classmethod
+    def __reset_instances_counter(cls=cls):
+        res = cls.__counter
+        cls.__counter = 0
         return res
 
-    cls.__init__ = __add_count
+    cls.__new__ = __new
     cls.get_created_instances = __get_created_instances
     cls.reset_instances_counter = __reset_instances_counter
     return cls
@@ -46,4 +49,4 @@ if __name__ == '__main__':
     print(user.get_created_instances())
     print(user_2.get_created_instances())  # 3
     user.reset_instances_counter()  # 3
-    print(user.get_created_instances())
+    print(User.get_created_instances())
