@@ -84,9 +84,6 @@ class Homework:
 
 class Student(Person):
 
-    def __init__(self, first_name, last_name):
-        super().__init__(first_name, last_name)
-
     def do_homework(self, homework: Homework, solution: str):
         if not homework.is_active():
             raise DeadlineError("You are late")
@@ -97,27 +94,25 @@ class HomeworkResult:
 
     def __init__(self, student: Student, homework: Homework, solution: str):
         if not isinstance(homework, Homework):
-            raise AttributeError("You gave a not Homework object")
+            raise TypeError("You gave a not Homework object")
         self.solution = solution
         self.author = student
         self.created = homework.created
-        self.homework = homework
+        self.homework = datetime.datetime.now()
 
 
 class Teacher(Person):
     homework_done = defaultdict(set)
 
-    def __init__(self, first_name, last_name):
-        super().__init__(first_name, last_name)
-
     @staticmethod
     def create_homework(text: str, days: int):
         return Homework(text, days)
 
-    def check_homework(self, homework: HomeworkResult):
+    @classmethod
+    def check_homework(cls, homework: HomeworkResult):
         solution_len_gt_5 = len(homework.solution) > 5
         if solution_len_gt_5:
-            self.homework_done[homework.homework].add(homework.author)
+            cls.homework_done[homework.homework].add(homework.author)
         return solution_len_gt_5
 
     @classmethod
@@ -147,6 +142,7 @@ if __name__ == '__main__':
         result_4 = HomeworkResult(good_student, "fff", "Solution")
     except Exception as e:
         print(e)
+    print(Teacher.check_homework(result_1))
     opp_teacher.check_homework(result_1)
     temp_1 = opp_teacher.homework_done
 
